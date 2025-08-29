@@ -1,0 +1,30 @@
+# Manejo de finales de línea (evita problemas en Windows/Linux/Mac)
+* text=auto eol=lf
+
+# Asegurar que archivos PHP y JS/TS usen LF
+*.php text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+
+# Archivos binarios (no convertir finales de línea)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.pdf binary
+*.zip binary
+*.gz binary
+
+# Evitar conflictos en lock files
+package-lock.json merge=union
+yarn.lock merge=union
+composer.lock merge=union

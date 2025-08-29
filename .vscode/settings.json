@@ -1,0 +1,9 @@
+{
+    "C_Cpp.autocompleteAddParentheses": true,
+    "namespaceResolver.highlightOnOpen": true,
+    "namespaceResolver.highlightOnSave": true,
+    "namespaceResolver.showMessageOnStatusBar": true,
+    "namespaceResolver.sortAlphabetically": true,
+    "namespaceResolver.sortNatural": true,
+    "namespaceResolver.sortOnSave": true
+}

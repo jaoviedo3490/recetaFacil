@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteBase /recetaFacil/RecetaFacil.com/public/
+
+# Si existe archivo o directorio, no lo toques
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Todo lo demás pasa por index.php
+RewriteRule ^ index.php [QSA,L]
