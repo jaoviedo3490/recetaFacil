@@ -1,9 +1,23 @@
 RewriteEngine On
 RewriteBase /recetaFacil/RecetaFacil.com/public/
 
+# ---- Rewrite Slim normal ----
 # Si existe archivo o directorio, no lo toques
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Todo lo demás pasa por index.php
 RewriteRule ^ index.php [QSA,L]
+
+# ---- Opcional: responder OPTIONS antes de Slim (preflight) ----
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+</IfModule>
+
+# ---- Limpiar posibles headers duplicados (opcional) ----
+<IfModule mod_headers.c>
+    Header always unset Access-Control-Allow-Origin
+    Header always unset Access-Control-Allow-Methods
+    Header always unset Access-Control-Allow-Headers
+</IfModule>

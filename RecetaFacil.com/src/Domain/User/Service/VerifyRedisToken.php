@@ -15,12 +15,17 @@ class VerifyRedisToken{
     public function verifyToken(string $email,string $token_frontend): array{
         try{
            $token = $this->redis->getRedisVar($email."_redis");
+           if(!isset($token['Data'])){
+                $this->message['Message'] = "Token expirado";
+                $this->message['Code'] = 404;
+                return $this->message;
+           }
            if($token['Data'] === $token_frontend){
-               $this->message['Message'] = "Token is valid";
+               $this->message['Message'] = "Token Autentificado";
                $this->message['Code'] = 200;
                return $this->message;
            }else{
-               $this->message['Message'] = "Token is invalid";
+               $this->message['Message'] = "Token no valido";
                $this->message['Code'] = 401;
                return $this->message;
            }

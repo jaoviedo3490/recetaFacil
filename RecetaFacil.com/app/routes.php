@@ -19,6 +19,7 @@ return function (App $app) {
         $response->getBody()->write('Hello world!');
         return $response;
     });
+    
 
     $app->group('/testers',function (Group $group) use ($app){
         $group->get('/phpinfo',function(Request $request, Response $response){

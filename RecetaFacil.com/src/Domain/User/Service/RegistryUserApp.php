@@ -8,7 +8,7 @@ use App\Infrastructure\Redis\Redis_cli;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class RegistryUserApp extends Action {
-    public $message = array('Code'=>200,'Message'=>'');
+    public $message = array();
     public $key;
     public function __construct($key){
         $this->key = $key;

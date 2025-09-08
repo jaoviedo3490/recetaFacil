@@ -19,6 +19,15 @@ class ViewUserAction extends UserAction
     {
         $userName = (string) $this->resolveArg('username');
         $user = $this->userRepository->findByUserName($userName);
+        
+        if(isset($user['Data']['_email']) && isset($user['Data']['id'])){
+            $data['email'] = $user['Data']['_email'];
+            $data['id'] = $user['Data']['id'];
+            $data['Code'] = 200;
+            $data['Message'] = $user['Message'];
+            return $this->respondWithData($data);
+        }
+        
         $this->logger->info("User of username `${userName}` was viewed.");
         return $this->respondWithData($user);
     }

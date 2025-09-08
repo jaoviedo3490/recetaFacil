@@ -23,6 +23,9 @@ class LoginUsuario extends UserAction
         $password =  $user_data['password'];
         
         $user = $this->userRepository->findByUserName($userName);
+        if($user['Code']=== 404){
+            return $this->respondWithData($user);
+        }
         $verificado = $user['Data']['_verificado'];
         if($verificado === '1'){
             if(password_verify($password,$user['Data']['_contrasena'])){
@@ -30,9 +33,11 @@ class LoginUsuario extends UserAction
             }else{
                 return $this->respondWithData(['Message'=>"Usuario no autenticado",'Code'=>403]);
             }
-        }else{
+        }else if ($verificado === '0'){
             $VerifyUser = new RegistryUserApp($user['Data']['_email']);
             $verify_user_result = $VerifyUser->registerUser();
+            $verify_user_result['email'] = $user['Data']['_email'];
+            $verify_user_result['id'] = $user['Data']['id'];
             switch($verify_user_result['Code']){
                 case 200:
                     return $this->respondWithData($verify_user_result);
