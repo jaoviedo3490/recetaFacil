@@ -209,5 +209,6 @@ return function (App $app) {
         $group->post('/loginUser/ActivateAccount', \App\Application\Actions\User\ActivateUserAccount::class);
         $group->post('/loginUser/loginUsuario',\App\Application\Actions\User\LoginUsuario::class);
         $group->post('/loginUser/RecoveryPassword',\App\Application\Actions\User\RecoveryPassword::class);
+
     });
 };

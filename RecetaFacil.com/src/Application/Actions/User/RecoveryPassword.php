@@ -28,10 +28,14 @@ class RecoveryPassword extends UserAction
             }
            return $this->respondWithData($result_redis_verify);
         }else{
+            
             $user = $this->userRepository->findByUserName($user_mail);
             if($user['Code'] === 200){
                 $VerifyUser = new RegistryUserApp($user_mail);
                 $verify_user_result = $VerifyUser->registerUser();
+                $id = $user['Data']['id'];
+                $verify_user_result['email'] = $user_mail;
+                $verify_user_result['id'] = $id;
                 switch($verify_user_result['Code']){
                     case 200:
                         return $this->respondWithData($verify_user_result);
