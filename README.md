@@ -9,7 +9,7 @@ Backend de **Receta Fácil**, una aplicación que permite:
 - Registrar cuentas de usuario con activación vía **token temporal en Redis**.  
 
 **Tecnologías:**  
-- PHP 8.x  
+- PHP 8  
 - Slim Framework  
 - MySQL  
 - Redis  
