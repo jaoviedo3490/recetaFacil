@@ -47,6 +47,9 @@ class Redis_cli {
     public function deleteVar($key){
         try{
             $this->redis_client->del($key);
+            $this->message['Message'] = "Sesion eliminada con exito";
+            $this->message['Code'] = "200";
+            return $this->message;
         }catch(\Exception $e){
             $this->message['Message'] = $e->getMessage();
             $this->message['Code'] = "500";

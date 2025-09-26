@@ -15,7 +15,6 @@ class ORM{
             $Message["Message"] = "ORM instanciado correctamente";
             return $Message;
         }catch(RedException $e){
-            //echo "Ocurrio un error el instanciar el ORM:".$e->getMessage();
             $Message["Message"] = "Ocurrio un error el instanciar el ORM:".$e->getMessage();
             return $Message;
         }   

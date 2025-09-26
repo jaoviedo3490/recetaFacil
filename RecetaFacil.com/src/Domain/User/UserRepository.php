@@ -52,22 +52,6 @@ class UserRepository extends \App\Infrastructure\DataBase\ORM
             return $this->message;
         }
     }
-    /*public function createAuditUser($data) : array{
-        try{
-            self::setup();
-            $audit = R::dispense('rfusuarioauditoria');
-            $audit->_id_usuario = $data['id_user'];
-            $audit->_fecha_ultimo_acceso = $data['last_access'];
-            R::store($audit);
-            $this->message['Code'] = 201;
-            $this->message['Message'] = 'Audit created successfully';
-            return $this->message;
-        }catch(\Exception $e){
-            $this->message['Code'] = 500;
-            $this->message['Message'] = $e->getMessage();
-            return $this->message;
-        }
-    }*/
     public function ActivateAccountUser($id) : array{
         try{
             self::setup();
@@ -117,7 +101,30 @@ class UserRepository extends \App\Infrastructure\DataBase\ORM
             return $this->message;
         }
     }
-   // public function verifyUser($userName,$code)
+
+    public function loginUserAuditory($id){
+        try{
+            self::setup();
+            $user_auditory = R::findOne('rfusuarioauditoria','_id_usuario=?',[$id]);
+            if(!$user_auditory){
+              
+                $this->message['Code'] = 404;
+                $this->message['Message'] = 'Usuario no encontrado';
+                return $this->message;
+            }
+            date_default_timezone_set('America/Bogota');
+
+            $user_auditory->_fecha_ultimo_acceso = R::isoDateTime();
+            R::store($user_auditory);
+            $this->message['Code'] = 200;
+            $this->message['Message'] = 'Auditoria Actualizada';
+            return $this->message;
+        }catch(\Exception $e){
+            $this->message['Code'] = 500;
+            $this->message['Message'] = $e->getMessage();
+            return $this->message;
+        }
+    }
 
     /**
      * @param int $id

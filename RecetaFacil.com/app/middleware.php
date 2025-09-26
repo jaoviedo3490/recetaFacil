@@ -7,5 +7,5 @@ use Slim\Psr7\Response;
 
 return function (App $app) {
     
-    $app->add(SessionMiddleware::class);
+    //$app->add(new \App\Application\Middleware\SessionMiddleware());
 };

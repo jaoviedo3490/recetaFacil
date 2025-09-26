@@ -46,7 +46,9 @@ $container = $containerBuilder->build();
 AppFactory::setContainer($container);
 $app = AppFactory::create();
 $callableResolver = $app->getCallableResolver();
+
 $app->setBasePath('/recetaFacil/RecetaFacil.com/public');
+$app->addErrorMiddleware(true, true, true);
 
 // Register middleware
 $middleware = require __DIR__ . '/../app/middleware.php';

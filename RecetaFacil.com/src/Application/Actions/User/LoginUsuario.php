@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
+use App\Domain\JWT\JwtService;
 use App\Domain\User\Service\RegistryUserApp;
 use App\Domain\User\UserRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
-
 class LoginUsuario extends UserAction
 {
     public function __construct(LoggerInterface $logger, UserRepository $userRepository)
@@ -29,7 +29,10 @@ class LoginUsuario extends UserAction
         $verificado = $user['Data']['_verificado'];
         if($verificado === '1'){
             if(password_verify($password,$user['Data']['_contrasena'])){
-                return $this->respondWithData(['Message'=>"Usuario autenticado",'Code'=>200]);
+                $user_login_auditory = $this->userRepository->loginUserAuditory($user['Data']['id']);
+                $jwt = new JwtService($this->logger ,$this->userRepository);
+                $jwt_response = $jwt->generateJWTInternal($userName);
+                return $this->respondWithData(['Message'=>"Usuario autenticado",'Code'=>200,"JWT"=>$jwt_response]);
             }else{
                 return $this->respondWithData(['Message'=>"Usuario no autenticado",'Code'=>403]);
             }
@@ -44,6 +47,7 @@ class LoginUsuario extends UserAction
                 break;
                 case 500:
                     return $this->respondWithData($verify_user_result);
+                    $this->logger->info(`$verify_user_result`);
                 break;
             }
                 return $this->respondWithData(['Message'=>$user,'Code'=>403]);
@@ -53,4 +57,5 @@ class LoginUsuario extends UserAction
 
         return $this->respondWithData(['Message'=>"BAD REQUEST",'Code'=>400]);
     }
+    
 }

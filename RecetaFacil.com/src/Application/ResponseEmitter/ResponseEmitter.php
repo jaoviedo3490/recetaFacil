@@ -14,14 +14,14 @@ class ResponseEmitter extends SlimResponseEmitter
      */
     public function emit(ResponseInterface $response): void
     {
-        // Permite cualquier origen o restringe a tu frontend
-        $allowedOrigins = ['http://localhost:5173']; // agrega otros si quieres
+        
+        $allowedOrigins = ['http://localhost:5173']; 
         $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
         if (!in_array($origin, $allowedOrigins)) {
-            $origin = '*'; // fallback si no está en la lista
+            $origin = '*';
         }
 
-        // Agregar headers CORS
+       
         $response = $response
             ->withHeader('Access-Control-Allow-Credentials', 'true')
             ->withHeader('Access-Control-Allow-Origin', $origin)
@@ -34,12 +34,12 @@ class ResponseEmitter extends SlimResponseEmitter
             ->withAddedHeader('Cache-Control', 'post-check=0, pre-check=0')
             ->withHeader('Pragma', 'no-cache');
 
-        // Limpiar buffer de salida
+     
         if (ob_get_contents()) {
             ob_clean();
         }
 
-        // Emitir respuesta
+   
         parent::emit($response);
     }
 }

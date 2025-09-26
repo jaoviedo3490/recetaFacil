@@ -29,6 +29,9 @@ return function (ContainerBuilder $containerBuilder) {
         },
         UserRepository::class => function (ContainerInterface $c) {
             return new UserRepository();
-        },  
+        }, 
+        recetasRepository::class => function (ContainerInterface $c) {
+            return new recetasRepository();
+        } 
     ]);
 };
