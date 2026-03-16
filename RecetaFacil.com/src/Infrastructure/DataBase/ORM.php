@@ -10,7 +10,7 @@ class ORM{
     public static $Message = array("Message"=>"");
     public static function setup(){
         try{
-            R::setup('mysql:host=127.0.0.1;dbname=rf_bd;port=3306;', 'root', '');
+            R::setup(''.$_ENV['DB_DRIVER'].':host='.$_ENV['DB_HOST'].';dbname='.$_ENV['DB_NAME'].';port='.$_ENV['DB_PORT'].';', $_ENV['DB_USER'], $_ENV['DB_PASS']);
              self::$Message["Message"] = "ORM instanciado correctamente";
              self::$Message["Code"] = "200";
             return  self::$Message;
@@ -19,6 +19,4 @@ class ORM{
             return self::$Message;
         }   
     }
-    
-
 }

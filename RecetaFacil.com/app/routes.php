@@ -35,14 +35,15 @@ return function (App $app) {
         $group->post('/login/Jwt/Auth',\App\Domain\JWT\JwtService::class);
 
     });
-
+   
     $app->group('/Recetas',function(Group $group){
-        $group->get('/findAll',\App\Application\Actions\Recetas\viewRecetas::class);
+        $group->post('/findAll',\App\Application\Actions\Recetas\viewRecetas::class);
         $group->post('/createReceta',\App\Application\Actions\Recetas\CreateRecetaAction::class);
         $group->post('/createCollection',\App\Application\Actions\Recetas\CreateRecetaCollection::class);
         $group->post('/viewCollection',\App\Application\Actions\Recetas\ViewCollectionsRecetas::class);
-       
-    });
+        $group->post('/viewAllCollection',\App\Application\Actions\Recetas\ViewAllRecetasCollections::class);
+        $group->post('/recetaChangeStatus',\App\Application\Actions\Recetas\ChangeStatusRecetaAction::class);
+    })->add(\App\Application\Middleware\SessionMiddleware::class);
 
     $app->group('/Session',function(Group $group){
       $group->post('/Jwt/Auth',\App\Domain\JWT\JwtService::class);
@@ -52,6 +53,10 @@ return function (App $app) {
     $app->group('/Reports',function(Group $group){
         $group->post('/home',\App\Application\Actions\Reports\ReportsHome::class);
     })->add(\App\Application\Middleware\SessionMiddleware::class);
+
+    $app->group('/asyncronus',function(Group $group){
+        $group->post('/loadRecipes',\App\Application\Actions\AsyncronousTasks\executeAlternTask::class);
+    });
   
 
 };

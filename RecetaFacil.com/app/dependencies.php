@@ -10,6 +10,7 @@ use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Scripts\AutomatizedScript;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Application\Actions\Reports;
+
 use App\Application\Actions\Action;
 use App\Domain\Recetas\RecetasRepository;
 use Psr\Log\LoggerInterface;
@@ -16,6 +18,3 @@ abstract class ReportsActions extends Action
         $this->recetasRepository = $recetasRepository;
     }
 }
-
-
-?>

@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 
 
-class ViewCollectionsRecetas extends RecetasActions{
+class ViewAllRecetasCollections extends RecetasActions{
     
     public function __construct(LoggerInterface $logger, RecetasRepository $recetasRepository ){
         parent::__construct($logger, $recetasRepository);
@@ -15,11 +15,12 @@ class ViewCollectionsRecetas extends RecetasActions{
 
     protected function action() : Response{
         $data = $this->request->getParsedBody();
-        if(!isset($data['getCollection'])){
-            $this->logger->info("Los datos enviados desde el cliente{getCollection} estan incompletos o han sido modificados");
+        $ID_USER = $this->request->getAttribute('user_id');
+        if(!isset($data['getAllCollection'])){
+            $this->logger->info("Los datos enviados desde el cliente{getAllCollection} estan incompletos o han sido modificados");
             return $this->respondWithData(['Code'=>401,"Message"=>"Datos incompletos o corruptos"]);
         }
-        $result = $this->recetasRepository->find();
+        $result = $this->recetasRepository->findAllCollection($ID_USER);
         return $this->respondWithData($result);
     }
 }

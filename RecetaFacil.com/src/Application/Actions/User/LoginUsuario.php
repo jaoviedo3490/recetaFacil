@@ -7,6 +7,7 @@ namespace App\Application\Actions\User;
 use App\Domain\JWT\JwtService;
 use App\Domain\User\Service\RegistryUserApp;
 use App\Domain\User\UserRepository;
+use App\Infrastructure\Redis\Redis_cli;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 class LoginUsuario extends UserAction
@@ -26,12 +27,12 @@ class LoginUsuario extends UserAction
         if($user['Code']=== 404){
             return $this->respondWithData($user);
         }
-        $verificado = $user['Data']['_verificado'];
+        @$verificado = $user['Data']['_verificado'];
         if($verificado === '1'){
             if(password_verify($password,$user['Data']['_contrasena'])){
                 $user_login_auditory = $this->userRepository->loginUserAuditory($user['Data']['id']);
                 $jwt = new JwtService($this->logger ,$this->userRepository);
-                $jwt_response = $jwt->generateJWTInternal($userName);
+                $jwt_response = $jwt->generateJWTInternal($userName,$user['Data']['id']);
                 return $this->respondWithData(['Message'=>"Usuario autenticado",'Code'=>200,"JWT"=>$jwt_response]);
             }else{
                 return $this->respondWithData(['Message'=>"Usuario no autenticado",'Code'=>403]);

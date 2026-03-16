@@ -5,18 +5,13 @@ use App\Domain\Recetas\RecetasRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 
-//use Stichoza\GoogleTranslate\GoogleTranslate;
-class viewRecetas extends RecetasActions{
+class vewRecipesDataSet extends RecetasActions{
     public function __construct(LoggerInterface $logger, RecetasRepository $recetasRepository){
         parent::__construct($logger,$recetasRepository);
     }
-    
+
     protected function action(): Response{
-       $recetas = $this->recetasRepository->findAllSaves($_SESSION['id']);
-       /*$recetas = [];
-       foreach($obj as $recetas_origin){
-            $recetas[] = $tr->translate($obj);
-       }*/
+       $recetas = $this->recetasRepository->findAllSaves();
        $this->logger->info('Receta obtenida con exito');
        return $this->respondWithData($recetas);
     }

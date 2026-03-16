@@ -20,13 +20,14 @@ class JwtService extends Action
     }
 
 
-    public function generateJWTInternal(string $usermail): array
+    public function generateJWTInternal(string $usermail,string $id_user): array
     {
         try {
             $redis = new Redis_cli();
             $session_token = substr(bin2hex(random_bytes(4)), 0, 8);
+            $value_redis = array('Session_Token'=>$session_token,'id_user'=>$id_user);
 
-            $redis_var = $redis->createTempVar(hash('sha256', $usermail) . '_redis_tokenJWT', $session_token, "28800");
+            $redis_var = $redis->createTempVar(hash('sha256', $usermail) . '_redis_tokenJWT', json_encode($value_redis), "28800");
 
             if ($redis_var['Code'] == 200) {
                 $jwt = new JsonWebToken($usermail, $session_token);

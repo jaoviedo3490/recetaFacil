@@ -35,9 +35,18 @@ class SessionMiddleware implements Middleware
             return $this->unauthorizedResponse('Sesión no válida o expirada');
         }
         try {
-            $decoded = JWT::decode($token, new Key($redis_var['Data'], 'HS256'));
-            $request = $request->withAttribute('user', $decoded);
+            $json_redis_saved = $redis_var['Data'];
+            $json_redis_saved = json_decode($json_redis_saved);
+            
+            $decoded = JWT::decode($token, new Key($json_redis_saved->Session_Token, 'HS256'));
+            $request = $request->withAttribute('user_id',  $json_redis_saved->id_user);
+            
+            if(session_status() === PHP_SESSION_NONE){
+                session_start();
+                $_SESSION['id'] = $json_redis_saved->id_user;
+            }
             return $handler->handle($request);
+            
         } catch (\Exception $e) {
             return $this->unauthorizedResponse('Token inválido: ' . $e->getMessage());
         }

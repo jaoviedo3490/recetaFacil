@@ -18,15 +18,15 @@ class Mail {
         try{
             $this->mail = new PHPMailer(true);
             $this->mail->isSMTP();
-            $this->mail->Host = 'smtp.gmail.com';
+            $this->mail->Host = $_ENV['MAIL_HOST'];
             $this->mail->SMTPAuth  = true;
-            $this->mail->Username = 'recetafacil15@gmail.com';
-            $this->mail->Password = 'jmiodcsddkjesfxk';
+            $this->mail->Username = $_ENV['MAIL_USERNAME'];
+            $this->mail->Password = $_ENV['MAIL_PASS'];
             $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $this->mail->Port = 587;
+            $this->mail->Port = $_ENV['MAIL_PORT'];
             $this->mail_to = $mail_to;
             $this->message_mail = $message_mail;
-            $this->mail->setFrom('recetafacil15@gmail.com', 'Receta Facil');
+            $this->mail->setFrom($_ENV['MAIL_FROM'], 'Receta Facil');
             $this->mail->addAddress($this->mail_to);
 
             $this->mail->isHTML(true);
