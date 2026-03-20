@@ -1,0 +1,6 @@
+{
+    "require": {
+        "stichoza/google-translate-php": "^5.3",
+        "cmatosbc/charon": "^1.0"
+    }
+}

@@ -12,12 +12,15 @@ class AutomatizedScript  extends \App\Infrastructure\DataBase\ORM
     public function __construct()
     {
         ini_set('memory_limit', '2G');
+        set_time_limit(0);
         $redis = new Redis_cli();
         $resultDataSet = $redis->variableIsExistAtRedis('dataSet');
         if ($resultDataSet['Code'] === '404') {
             $result = $this->loadRecipes_at_redis();
             $redis->createVar("dataSet", gzcompress(json_encode($result, JSON_UNESCAPED_UNICODE)));
-        }else{
+            //$redis->createVar("dataSet", gzcompress(json_encode($result, JSON_UNESCAPED_UNICODE)));
+            return $resultDataSet;
+        } else {
             return $resultDataSet;
         }
     }
@@ -25,23 +28,24 @@ class AutomatizedScript  extends \App\Infrastructure\DataBase\ORM
     {
         try {
             self::setup();
+            $redis = new Redis_cli();
             $last_id = 0;
             $redis_data = array('Titulo' => array(), "Ner" => array(), "id" => array());
             do {
-                $rows = R::getAll('SELECT id ,_title, _ner from rfrecipes where id > ? limit 5', [$last_id]);
+                $rows = R::getAll('SELECT id ,_title, _ner from rfrecipes where id > ? limit 5000', [$last_id]);
                 foreach ($rows as $row) {
                     array_push($redis_data['Titulo'], $row['_title']);
                     array_push($redis_data['Ner'], $row['_ner']);
                     array_push($redis_data['id'], $row['id']);
                     $last_id = $row['id'];
+                    //$redis->createVar("dataSet", gzcompress(json_encode($redis_data, JSON_UNESCAPED_UNICODE)));
+                    
                 }
 
                 if (count($rows) === 0) {
                     return $redis_data;
                     break;
                 }
-                unset($rows);
-                gc_collect_cycles();
             } while (true);
 
             return ["Code" => '200', 'Message' => 'Se almaceno correcto', "data" => $redis_data];
